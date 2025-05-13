@@ -1,0 +1,21 @@
+
+//TC: O(T+N), where T is number of trust relationships in trust array and N is number of people.
+//SC: O(N), we only need trust count array to hold total trust counts for each people.
+
+class Solution(object):
+    def findJudge(self, n, trust):
+        
+        # Array to track trust balance: +1 for each incoming trust, -1 for each outgoing trust
+        trust_count = [0] * (n + 1)
+        
+        # Process each trust relationship
+        for a, b in trust:
+            trust_count[a] -= 1  # Person a trusts someone, so decrement
+            trust_count[b] += 1  # Person b is trusted, so increment
+            
+        # Check for the judge: must have trust_count = n-1 (trusted by all others)
+        for i in range(1, n + 1):
+            if trust_count[i] == n - 1:
+                return i
+                
+        return -1  # No judge found
